@@ -24,6 +24,7 @@ class BeaconListener : public Element
     uint16_t _interval;
     uint16_t _apaddr;
     bool     _sync;
+    uint16_t _prevseq;
 };
 
 CLICK_ENDDECLS

@@ -28,6 +28,7 @@ int BeaconListener::initialize(ErrorHandler *) {
 void BeaconListener::push(int, Packet *p) {
   Timestamp now = Timestamp::now();
   uint16_t srcaddr = *((uint16_t*)p->data());
+  uint16_t seqnum = *((uint16_t*)(p->data() + 2*sizeof(uint16_t)));
   
   if (!_sync) {
     if (srcaddr == _apaddr) {
@@ -42,9 +43,11 @@ void BeaconListener::push(int, Packet *p) {
     if (srcaddr == _apaddr) {
       if (now.doubleval() - (_tbft - 0.1) <= 0.01) {
         //click_chatter("%{timestamp}: associated with %d", &now, srcaddr);
+        _prevseq = seqnum;
         output(0).push(p);
         return;
       }
+      else _sync = false;
     }
   }
 
