@@ -7,7 +7,15 @@ FromHost(fake, client_addr, ETHER client_addr)
 -> to_dev :: ToDevice(wlan0);
 
 FromDevice(wlan0, SNIFFER false)
+-> cl::Classifier(12/1111, -)
+-> Strip(14)
 -> SetTimestamp()
+-> Print(LABEL "pre", TIMESTAMP true)
 -> BeaconListener(ADDR 10)
--> Print(TIMESTAMP true)
+-> Print(LABEL "post", TIMESTAMP true)
+-> Discard;
+
+cl[1]
 -> ToHost(fake)
+
+

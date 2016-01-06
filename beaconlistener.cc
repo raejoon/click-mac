@@ -3,7 +3,7 @@
 #include "beaconlistener.hh"
 CLICK_DECLS
 
-BeaconListener::BeaconListener() {
+BeaconListener::BeaconListener() : _timer(this) {
   _sync = false;
   _interval = 100;
 }
