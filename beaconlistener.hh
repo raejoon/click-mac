@@ -1,6 +1,7 @@
 #ifndef BEACONLISTENER_HH
 #define BEACONLISTENER_HH
 #include <click/element.hh>
+#include <click/timer.hh>
 CLICK_DECLS
 
 class BeaconListener : public Element
@@ -14,8 +15,11 @@ class BeaconListener : public Element
     const char *processing() const { return "h"; }
     int configure(Vector<String> &conf, ErrorHandler* errh);
     void push(int, Packet *p);
+    void run_timer(Timer *timer);
   
   private:
+    Timer    _timer;
+    double   _tbft;
     uint16_t _interval;
     uint16_t _apaddr;
     bool     _sync;

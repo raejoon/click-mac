@@ -8,6 +8,6 @@ FromHost(fake, client_addr, client_addr)
 
 FromDevice(wlan0, SNIFFER false)
 -> SetTimestamp()
--> Print(TIMESTAMP true)
 -> BeaconListener(ADDR 10)
+-> Print(TIMESTAMP true)
 -> ToHost(fake)

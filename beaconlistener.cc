@@ -5,6 +5,7 @@ CLICK_DECLS
 
 BeaconListener::BeaconListener() {
   _sync = false;
+  _interval = 100;
 }
 
 BeaconListener::~BeaconListener() {
@@ -25,17 +26,30 @@ void BeaconListener::push(int, Packet *p) {
   
   if (!_sync) {
     if (srcaddr == _apaddr) {
-      click_chatter("%{timestamp}: associated with %d", &now, srcaddr);
+      //click_chatter("%{timestamp}: associated with %d", &now, srcaddr);
+      _timer.schedule_after_msec(_interval - 5);
       _sync = true;
+      
+      output(0).push(p);
+      return;
     }
-  } 
-  else {
+  } else {
     if (srcaddr == _apaddr) {
-      click_chatter("%{timestamp}: associated with %d", &now, srcaddr);
+      if (now.doubleval() - (_tbft - 0.1) <= 0.01) {
+        //click_chatter("%{timestamp}: associated with %d", &now, srcaddr);
+        output(0).push(p);
+        return;
+      }
     }
   }
 
-  output(0).push(p);
+  p->kill();
+}
+
+void BeaconListener::run_timer(Timer *timer) {
+  assert(timer == &_timer);
+  _timer.reschedule_after_msec(_interval);
+  _tbft = _timer.expiry().doubleval();
 }
 
 CLICK_ENDDECLS
