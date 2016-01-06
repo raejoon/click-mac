@@ -7,4 +7,7 @@ FromHost(fake, client_addr, client_addr)
 -> to_dev :: ToDevice(wlan0);
 
 FromDevice(wlan0, SNIFFER false)
+-> SetTimestamp()
+-> Print(TIMESTAMP true)
+-> BeaconListener(ADDR 10)
 -> ToHost(fake)
