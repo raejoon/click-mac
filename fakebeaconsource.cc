@@ -44,10 +44,10 @@ int FakeBeaconSource::initialize(ErrorHandler *) {
 void FakeBeaconSource::run_timer(Timer *timer) {
   assert(timer == &_timer);
 
-  WritablePacket* p = _beacon -> uniqueify();
+  WritablePacket* p = (_beacon->clone()) -> uniqueify();
   memcpy(p->data() + 2*sizeof(uint16_t), &_seqnum, sizeof(uint16_t));
   _seqnum++;
-  
+
   output(0).push(p);
   _timer.reschedule_after_msec(_interval);
 }
