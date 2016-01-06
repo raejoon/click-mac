@@ -12,7 +12,7 @@ class FakeBeaconSource : public Element
 
     const char *class_name() const { return "FakeBeaconSource"; }
     const char *port_count() const { return "0/1"; }
-    const char *processing() const { return "PUSH"; }
+    const char *processing() const { return "h"; }
     int configure(Vector<String> &conf, ErrorHandler* errh);
     int initialize(ErrorHandler *);
     void run_timer(Timer *timer);

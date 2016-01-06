@@ -8,5 +8,5 @@ FromHost(fake, ap_bssid, ETHER ap_bssid)
 
 FakeBeaconSource(ADDR 10) -> q;
 
-FromDevice(wlan0)
+FromDevice(wlan0, SNIFFER false)
 -> ToHost(fake)
