@@ -14,6 +14,7 @@ class BeaconListener : public Element
     const char *port_count() const { return "1/1"; }
     const char *processing() const { return "h"; }
     int configure(Vector<String> &conf, ErrorHandler* errh);
+    int initialize(ErrorHandler *);
     void push(int, Packet *p);
     void run_timer(Timer *timer);
   

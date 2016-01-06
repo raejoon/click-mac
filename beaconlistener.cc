@@ -20,6 +20,11 @@ int BeaconListener::configure(Vector<String> &conf, ErrorHandler* errh) {
   return 0;
 }
 
+int BeaconListener::initialize(ErrorHandler *) {
+  _timer.initialize(this);
+  return 0;
+}
+
 void BeaconListener::push(int, Packet *p) {
   Timestamp now = Timestamp::now();
   uint16_t srcaddr = *((uint16_t*)p->data());
