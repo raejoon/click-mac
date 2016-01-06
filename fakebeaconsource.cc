@@ -37,7 +37,7 @@ int FakeBeaconSource::configure(Vector<String> &conf, ErrorHandler* errh)
 
 int FakeBeaconSource::initialize(ErrorHandler *) {
   _timer.initialize(this);
-  _timer.schedule_now();
+  _timer.schedule_after_msec(_interval);
   return 0;
 }
 

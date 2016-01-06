@@ -7,9 +7,9 @@ FromHost(fake, ap_bssid, ETHER ap_bssid)
 -> to_dev :: ToDevice(wlan0);
 
 FakeBeaconSource(ADDR 10) 
--> Print()
+-> SetTimestamp()
+-> Print(TIMESTAMP true)
 -> EtherEncap(0x1111, ap_bssid, ff:ff:ff:ff:ff:ff)
--> Print()
 -> q;
 
 FromDevice(wlan0, SNIFFER false)
