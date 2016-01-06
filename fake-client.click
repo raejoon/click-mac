@@ -6,5 +6,5 @@ FromHost(fake, client_addr, client_addr)
 -> q :: Queue(10)
 -> to_dev :: ToDevice(wlan0);
 
-FromDevice(wlan0)
+FromDevice(wlan0, SNIFFER false)
 -> ToHost(fake)
