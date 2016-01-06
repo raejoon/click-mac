@@ -25,7 +25,7 @@ int FakeBeaconSource::configure(Vector<String> &conf, ErrorHandler* errh)
 
   size_t length = 4*sizeof(uint16_t);
   char payload[length];
-  
+
   memcpy(payload, &_srcaddr, sizeof(uint16_t));
   memcpy(payload + sizeof(uint16_t), &broadcastaddr, sizeof(uint16_t));
   memcpy(payload + 2*sizeof(uint16_t), &_seqnum, sizeof(uint16_t));
