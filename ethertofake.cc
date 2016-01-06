@@ -1,14 +1,14 @@
 #include <click/config.h>
-#include "translator.hh"
+#include "EtherToFake.hh"
 CLICK_DECLS
 
-Translator::Translator() {
+EtherToFake::EtherToFake() {
 }
 
-Translator::~Translator() {
+EtherToFake::~EtherToFake() {
 }
 
-void Translator::push(int, Packet *p) {
+void EtherToFake::push(int, Packet *p) {
   WritablePacket *q = p->uniqueify();
 
   WritablePacket *r = q->put(sizeof(uint16_t));
@@ -21,4 +21,4 @@ void Translator::push(int, Packet *p) {
 }
 
 CLICK_ENDDECLS
-EXPORT_ELEMENT(Translator)
+EXPORT_ELEMENT(EtherToFake)
