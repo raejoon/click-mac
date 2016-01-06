@@ -7,6 +7,7 @@ static uint16_t broadcastaddr = 99;
 FakeBeaconSource::FakeBeaconSource() 
   : _timer(this)
 {
+  _seqnum = 0;
 }
 
 FakeBeaconSource::~FakeBeaconSource()
@@ -22,12 +23,13 @@ int FakeBeaconSource::configure(Vector<String> &conf, ErrorHandler* errh)
       .complete() < 0)
       return -1;
 
-  size_t length = sizeof(uint16_t) + sizeof(uint16_t) + sizeof(uint16_t);
+  size_t length = 4*sizeof(uint16_t);
   char payload[length];
   
   memcpy(payload, &_srcaddr, sizeof(uint16_t));
   memcpy(payload + sizeof(uint16_t), &broadcastaddr, sizeof(uint16_t));
-  memcpy(payload + 2*sizeof(uint16_t), &_interval, sizeof(uint16_t));
+  memcpy(payload + 2*sizeof(uint16_t), &_seqnum, sizeof(uint16_t));
+  memcpy(payload + 3*sizeof(uint16_t), &_interval, sizeof(uint16_t));
 
   _beacon = Packet::make(payload, length);
   return 0;
@@ -42,7 +44,9 @@ int FakeBeaconSource::initialize(ErrorHandler *) {
 void FakeBeaconSource::run_timer(Timer *timer) {
   assert(timer == &_timer);
 
-  Packet* p = _beacon -> clone();
+  WritablePacket* p = _beacon -> uniqueify();
+  memcpy(p->data() + 2*sizeof(uint16_t), &_seqnum, sizeof(uint16_t));
+  _seqnum++;
   
   output(0).push(p);
   _timer.reschedule_after_msec(_interval);
